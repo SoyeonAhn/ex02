@@ -32,7 +32,7 @@ public class BoardController {
 		logger.info(board.toString());
 		
 		service.regist(board);
-		
+		//
 		//model.addAttribute("result", "success");
 		rttr.addFlashAttribute("msg", "success");
 		//return "/board/success";
