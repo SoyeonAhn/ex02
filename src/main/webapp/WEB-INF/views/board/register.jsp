@@ -14,7 +14,7 @@
 	<div class = "box-body">
 		<div class = "form-group">
 			<label for = "exampleInputEmail1">Title</label>
-			<input type = "text" name = 'title' class = "from-control" placeholder = "Enter Title">
+			<input type = "text" name = 'title' class = "from-control" placeholder = "Enter Title" required>
 		</div>
 		<div class = "form-group">
 		<label for="exampleInputPassword1">Content</label>

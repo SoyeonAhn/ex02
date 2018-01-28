@@ -50,7 +50,7 @@
 			formObj.submit();
 		});
 
-		$(".btn-danger").oon("click", function() {
+		$(".btn-danger").on("click", function() {
 			formObj.attr("action", "/board/remove");
 			formObj.submit();
 		});
