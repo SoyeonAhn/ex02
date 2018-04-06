@@ -9,7 +9,8 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
-	
+		
+
 	<!-- Application Loggers -->
 	<logger name="org.zerock.controller">
 		<level value="info" />
@@ -32,10 +33,17 @@
 		<level value="info" />
 	</logger>
 
-	<!-- Root Logger -->
-	<root>
+	<!-- Root Logger 
+	 <root>
 		<priority value="warn" />
 		<appender-ref ref="console" />
+	</root>-->
+		
+		<!-- Root Logger -->
+	<root>
+		<priority value="info" />
+		<appender-ref ref="console" />
 	</root>
+	
 	
 </log4j:configuration>

@@ -55,8 +55,13 @@ public class BoardController {
 //	}
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public void read(@RequestParam("bno")int bno, Model model)throws Exception{
-		
+		System.out.println("read");
+		System.out.println(service.read(bno));
+		System.out.println("read2");
 		model.addAttribute(service.read(bno));
+		System.out.println("read3");
+
+		
 	}
 	
 	@RequestMapping(value = "/readPage", method = RequestMethod.GET)

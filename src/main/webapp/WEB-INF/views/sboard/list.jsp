@@ -62,12 +62,11 @@
 						</tr>
 
 						<c:forEach items="${list}" var="boardVO">
-
 							<tr>
 								<td>${boardVO.bno}</td>
 								<td><a
 									href='/sboard/readPage${pageMaker.makeSearch(pageMaker.cri.page) }&bno=${boardVO.bno}'>
-										${boardVO.title}</a></td>
+										${boardVO.title}<strong>[${boardVO.replycnt }]</strong></a></td>
 								<td>${boardVO.writer}</td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 										value="${boardVO.regdate}" /></td>
@@ -143,7 +142,6 @@
 			$('#newBtn').on("click", function(evt){
 				self.location = "register";
 			});
-	
 	});
 	/*$(".pagination li a").on("click", function(event) {
 

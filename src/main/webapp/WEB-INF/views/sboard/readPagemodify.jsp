@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@include file="../include/header.jsp"%>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-<!-- 내가 쓴 코드 -->
+<!-- 수정할 코드 -->
 <!-- Main content -->
 <section class="content">
 	<div class="row">
@@ -16,6 +16,7 @@
 				<!-- /.box-header -->
 
 				<form role="form" action="modifyPage" method="post">
+
 					<input type='hidden' name='bno' value="${boardVO.bno}"> <input
 						type='hidden' name='page' value="${cri.page}"> <input
 						type='hidden' name='perPageNum' value="${cri.perPageNum}">
@@ -42,10 +43,7 @@
 					</div>
 				</div>
 				<!-- /.box-body -->
-			<ul class="mailbox-attachments clearfix uploadedList">
-			
-			
-			</ul>
+
 			  <div class="box-footer">
 			    <button type="submit" class="btn btn-warning" id="modifyBtn">Modify</button>
 			    <button type="submit" class="btn btn-danger" id="removeBtn">REMOVE</button>
@@ -76,7 +74,8 @@
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
-					<button type="button" class="btn btn-primary" id="replyAddBtn">ADD REPLY</button>
+					<button type="button" class="btn btn-primary" id="replyAddBtn">ADD
+						REPLY</button>
 				</div>
 			</div>
 
@@ -85,7 +84,7 @@
 			<ul class="timeline">
 				<!-- timeline time label -->
 				<li class="time-label" id="repliesDiv"><span class="bg-green">
-						Replies List <small id = 'replycntSmall'>[${boardVO.replycnt }]</small></span></li>
+						Replies List </span></li>
 			</ul>
 
 			<div class='text-center'>
@@ -119,28 +118,8 @@
     </div>
   </div>
 </div>      
-<div class = 'popup back' style = "display:none;" >	</div>
-<div id = "popup_front" class='popup front' style = "display:none;">
-<img id = "popup_img">
-</div>
+	
 </section>
-
-<style type = "text/css">
-	.popup{position : absolute;}
-	.back{background-color:gray; opacity : 0.5; width:100%; height:300%; overflow:hidden z-index:1101;}
-	.front{z-index:1110; opacity:1; border:1px; margin:auto;}
-	.show{position:relative;
-	max-width:1200px;
-	max-height:800px;
-	overflow:auto;
-	}
-	.mailbox-attachment-icon {
-    text-align: center;
-    font-size: 17px;
-    color: #666;
-    padding: 20px 10px;
-	}
-</style>
 <!-- /.content -->
 <%-- <section class="content">
 <form role="form" action="modifyPage" method="post">
@@ -169,7 +148,6 @@
 			readonly="readonly">
 	</div>
 </div>
-
 <!-- /.box-body -->
 <div class="box-footer">
 	<button type="submit" class="btn btn-warning modifyBtn">Modify</button>
@@ -231,20 +209,9 @@
 {{/each}}
 </script>
 
-<script type = "text/javascript" src = "/resources/js/upload.js"></script>
-<script id = "templateAttach" type = "text/x-handlebars-template">
-<li data-src = '{{fullName}}'>
-	<span class = "mailbox-attachment-icon has-img"><img src = "{{imgsrc}}" alt = "Attachment">
-		<div class = "mailbox-attachment-info">
-		<a href = "{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
-	</span>
-	</div>
-</li>
-</script>
-
 <script>
 //p435
-Handlebars.registerHelper("prettifyDate", function(timeValue){
+ Handlebars.registerHelper("prettifyDate", function(timeValue){
 	var dateObj = new Date(timeValue);
 	var year = dateObj.getFullYear();
 	var month = dateObj.getMonth()+1;
@@ -253,7 +220,7 @@ Handlebars.registerHelper("prettifyDate", function(timeValue){
 });
 
 var printData = function(replyArr, target, templateObject){
-var template = Handlebars.compile(templateObject.html());
+	var template = Handlebars.compile(templateObject.html());
 	
 	var html = template(replyArr);
 	$(".replyLi").remove();
@@ -264,32 +231,53 @@ var template = Handlebars.compile(templateObject.html());
 var bno = ${boardVO.bno};
 var replyPage = 1;
 
-function getPage(pageInfo){
+/* function getPage(pageInfo){
 	$.getJSON(pageInfo, function(data){
+		alert("getpage함수 들어옴");
+		alert(data);
+		//System.out.println("getPage");
+		
 		printData(data.list, $("#repliesDiv"), $('#template'));
 		printPaging(data.pageMaker, $(".pagination"));
-		
 		$("#modifyModal").modal('hide');
-		$("#replycntSmall").html("[" + data.pageMaker.totalCount + "]");
+		console.log("getPage");
+	});
+}내코드 */
+
+function getPage(pageInfo) {
+
+	$.getJSON(pageInfo, function(data) {
+		printData(data.list, $("#repliesDiv"), $('#template'));
+		printPaging(data.pageMaker, $(".pagination"));
+
+		$("#modifyModal").modal('hide');
+
 	});
 }
- 
+  
 var printPaging = function(pageMaker, target){
 	var str = "";
-	
+	console.log("pageMaker.prev" + pageMaker.prev);
+	console.log("pageMaker.next" + pageMaker.next);
 	if(pageMaker.prev){
+		console.log("pageMaker.prev" + pageMaker.prev);
 		str+="<li><a href='"+(pageMaker.startPage-1)+"'> << </a></li>";
 	}
+
 	for(var i=pageMaker.startPage, len=pageMaker.endPage; i<=len;i++){
 		var strClass = pageMaker.cri.page ==i?'class=active':'';
-		str+="<li "+strClass+"><a href='" +i+"'>"+i+"</a></li>";
+	  //str+="<li"+strClass+"><a href='" +i+"'>"+i+"</a></li>";//내 원래코드
+		str+="<li "+strClass+"><a href='"+i+"'>"+i+"</a></li>";//내 원래코드 수정
+		//str += "<li "+strClass+"><a href='"+i+"'>" + i + "</a></li>";//맞는 코드
+		
 	}
 	
 	if(pageMaker.next){
+		console.log("pageMaker.next" + pageMaker.next);
 		str+="<li><a href='"+(pageMaker.endPage +1)+"'> >> </a></li>";
 	}
 	target.html(str);
-};
+}; 
 
  //p438
 $("#repliesDiv").on("click", function(){
@@ -304,84 +292,67 @@ $(".pagination").on("click", "li a", function(event){
 	event.preventDefault();
 	replyPage = $(this).attr("href");
 	getPage("/replies/" + bno + "/" + replyPage);
-});
+}); 
 //p440
-$("#replyAddBtn").on("click",function(){
-		 
-		 var replyerObj = $("#newReplyWriter");
-		 var replytextObj = $("#newReplyText");
-		 var replyer = replyerObj.val();
-		 var replytext = replytextObj.val();
-		
-		  
-		  $.ajax({
-				type:'post',
-				url:'/replies/',
-				headers: { 
-				      "Content-Type": "application/json",
-				      "X-HTTP-Method-Override": "POST" },
-				dataType:'text',
-				data: JSON.stringify({bno:bno, replyer:replyer, replytext:replytext}),
-				success:function(result){
-					console.log("result: " + result);
-					if(result == 'success'){
-						alert("등록 되었습니다.");
-						replyPage = 1;
-						getPage("/replies/"+bno+"/"+replyPage );
-						replyerObj.val("");
-						replytextObj.val("");
-					}
-			}});
-	});
-//p443
-$(".timeline").on("click", ".replyLi", function(event){
-	var reply = $(this);
+/*  $("#replyAddBtn").on("click", function(){
+	var replyerObj = $("#newReplyWriter");
+	var replytextObj = $("#newReplyText");
+	var replyer = replyerObj.val();
+	var replytext = replytextObj.val();
 	
-	$("#replytext").val(reply.find('.timeline-body').text());
-	$(".modal-title").html(reply.attr("data-rno"));
-});
-//p445
-$("#replyModBtn").on("click", function(){
-	var rno = $(".modal-title").html();
-	var replytext = $("#replytext").val();
+	//System.out.println("replyAddBtn");
+	console.log("replyAddBtn");
 	
 	$.ajax({
-		type:'put',
-		url:'/replies/' + rno,
-		headers:{
+		type : 'post',
+		url : '/replies/',
+		headers : {
 			"Content-Type" : "application/json",
-			"X-HTTP-Method-Override" : "PUT"},
-			data:JSON.stringify({replytext:replytext}),
-			dataType:'text',
-			success:function(result){
-				console.log("result : " +result);
-				if(result=='success'){
-					alert("수정 되었습니다");
-					getPage("/replies/" + bno + "/" + replyPage);
-				}
-			}
-	});
-});
-//p445댓글 삭제
-$("#replyDelBtn").on("click", function(){
-	var rno = $(".modal-title").html();
-	var replytext = $("#replytext").val();
-	
-	$.ajax({
-		type:'delete',
-		url:'/replies/' + rno,
-		headers:{
-			"Content-Type" : "application/json",
-			"X-HTTP-Method-Override" : "DELETE"},
-		dataType:'text',
-		success : function(result){
-			console.log("result : " + result);
-			if(result == 'success'){
-				alert("삭제 되었습니다.");
+			"X-HTTP-Method-Override":"POST"},
+		dataType : 'text',
+		data : JSON.stringify({bno:bno, replyer : replyer, replytext:replytext}),
+ 		success:function(result){
+ 			//System.out.println("success");
+ 			//System.out.println("result" +result);
+			//console.log("result : " + result);
+			alert("success:function에 들어옴.");
+			if(result=='success'){
+				alert("등록 되었습니다." + bno);
+				replyPage = 1;
 				getPage("/replies/" + bno + "/" + replyPage);
+				alert("getPage 지나서");
+				replyerObj.val("");
+				replytextObj.val("");
 			}
-		}
+		} 
 	});
+});  */
+ $("#replyAddBtn").on("click",function(){
+	 
+	 var replyerObj = $("#newReplyWriter");
+	 var replytextObj = $("#newReplyText");
+	 var replyer = replyerObj.val();
+	 var replytext = replytextObj.val();
+	
+	  
+	  $.ajax({
+			type:'post',
+			url:'/replies/',
+			headers: { 
+			      "Content-Type": "application/json",
+			      "X-HTTP-Method-Override": "POST" },
+			dataType:'text',
+			data: JSON.stringify({bno:bno, replyer:replyer, replytext:replytext}),
+			success:function(result){
+				console.log("result: " + result);
+				if(result == 'SUCCESS'){
+					alert("등록 되었습니다.");
+					replyPage = 1;
+					getPage("/replies/"+bno+"/"+replyPage );
+					replyerObj.val("");
+					replytextObj.val("");
+				}
+		}});
 });
 </script>
 
@@ -397,75 +368,16 @@ $("#replyDelBtn").on("click", function(){
 			formObj.submit();
 		});
 
-		$("#removeBtn").on("click", function() {
-			console.log("removeBtn 들어옴");
-			
-			var replyCnt = $("#replycntSmall").html().replace(/[^0-9]/g,"");
-			
-			if(replyCnt>0){
-				alert("댓글이 달린 게시물을 삭제할 수 없습니다.");
-				return;
-			}
-			
-			var arr = [];
-			$(".uploadedList li").each(function(index){
-				arr.push($(this).attr("data-src"));
-			});
-			
-			if(arr.length>0){
-				$.post("/deleteAllFiles", {fie:arr}, function(){
-					
-				});
-			}
-			
+		$(".btn-danger").on("click", function() {
 			formObj.attr("action", "/sboard/removePage");
 			formObj.submit();
 		});
-		$("#goListBtn").on("click", function() {
+		$(".btn-primary").on("click", function() {
 			formObj.attr("method", "get");
 			formObj.attr("action", "/sboard/list");
 			formObj.submit();
 		});
 	});
-</script>
-
-
-<script>
-//p601
-var bno = ${boardVO.bno};
-var template = Handlebars.compile($("#templateAttach").html()); 
-
-$.getJSON("/sboard/getAttach/" + bno, function(list){
-	$(list).each(function(){
-		var fileInfo = getFileInfo(this);
-		
-		var html = template(fileInfo);
-		
-		$(".uploadedList").append(html);
-	});
-});
-
-//p604
-$(".uploadedList").on("click", ".mailbox-attachment-info a", function(event){
-	var fileLink = $(this).attr("href");
-	
-	if(checkImageType(fileLink)){
-		event.preventDefault();
-		
-		var imgTag = $("#popup_img");
-		imgTag.attr("src", fileLink);
-		
-		console.log(imgTag.attr("src"));
-		
-		$(".popup").show('slow');
-		imgTag.addClass("show");
-	}
-});
-
-$("#popup_img").on("click", function(){
-	$(".popup").hide('slow');
-});
-
 </script>
 
 <%@include file="../include/footer.jsp"%>

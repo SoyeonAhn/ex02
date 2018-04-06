@@ -1,6 +1,8 @@
 package org.zerock.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -26,7 +28,7 @@ public class BoardDAOImpl implements BoardDAO {
 	public BoardVO read(Integer bno) throws Exception{
 		return session.selectOne(namespace+".read", bno);
 	}
-	
+
 	@Override
 	public void update(BoardVO vo)throws Exception{
 		session.update(namespace + ".update", vo);
@@ -40,7 +42,7 @@ public class BoardDAOImpl implements BoardDAO {
 	public List<BoardVO>listAll() throws Exception{
 		return session.selectList(namespace + ".listAll");
 	}
-	//쿼리문 작동시키려고 한느거고 Mapper를 통해서 
+	//쿼리문 작동시키려고 하는거고 Mapper를 통해서 
 	@Override
 	public List<BoardVO> listPage(int page) throws Exception{
 		if(page<=0){
@@ -69,5 +71,43 @@ public class BoardDAOImpl implements BoardDAO {
 		return session.selectOne(namespace + ".listSearchCount", cri);
 	}
 
-
+	@Override
+	public void updateReplyCnt(Integer bno, int amount)throws Exception{
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("bno", bno);
+		paramMap.put("amount", amount);
+		
+		session.update(namespace + ".updateReplyCnt", paramMap );
+	}
+	
+	@Override
+	public void updateViewCnt(Integer bno)throws Exception{
+		session.update(namespace + ".updateViewCnt", bno);
+	}
+	
+	@Override
+	public void addAttach(String fullName)throws Exception{
+		session.insert(namespace+".addAttach", fullName);
+	}
+	
+	@Override
+	public List<String> getAttach(Integer bno)throws Exception{
+		return session.selectList(namespace + ".getAttach", bno);
+	}
+	
+	@Override
+	public void deleteAttach(Integer bno)throws Exception{
+		session.delete(namespace + ".deleteAttach", bno);
+	}
+	
+	@Override
+	public void replaceAttach(String fullName, Integer bno)throws Exception{
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("bno", bno);
+		paramMap.put("fullName", fullName);
+		
+		session.insert(namespace + ".replaceAttach", paramMap);
+	}
 }
